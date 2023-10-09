@@ -16,7 +16,13 @@
           <label for="date">date :</label>
           <input type="date" id="date" name="date" [(ngModel)]="participant.date" required>
         </div>
-      
+        <div class="form-group" *ngIf="participant.event === 'event2'"> <!-- Afficher seulement si 'Collecte alimentaire' est sélectionné -->
+          <div class="time" for="time">Choix des horaires de présence :  </div>
+          <label for="time">de </label>
+          <input type="time" id="time" name="time" [(ngModel)]="participant.time" required>
+          <label for="time"> a  </label>
+          <input type="time" id="time" name="time" [(ngModel)]="participant.time" required>
+        </div>
    
         <button type="submit" (click)="onSubmit()">S'inscrire à l'événement</button>
       </form>

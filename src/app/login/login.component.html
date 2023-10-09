@@ -13,5 +13,8 @@
       <label for="password">Mot de passe :</label>
       <input type="password" id="password" name="password" [(ngModel)]="user.password" required>
     </div>
+    <div id="button">
+    <button type="submit" (click)="onSubmit()">Se connecter</button>
     <button type="submit" (click)="onSubmit()">S'inscrire</button>
+  </div>
   </form></div>
