@@ -11,6 +11,7 @@ import { CalendarComponent } from '../pages/calendar/calendar.component';
 import { HomeComponent } from '../pages/home/home.component';
 import { LoginComponent } from './login/login.component';
 import { InscriptionEventComponent } from './inscription-event/inscription-event.component';
+import { CardEventComponent } from './card-event/card-event.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { InscriptionEventComponent } from './inscription-event/inscription-event
     CalendarComponent,
     HomeComponent,
     LoginComponent,
-    InscriptionEventComponent
+    InscriptionEventComponent,
+    CardEventComponent
   ],
   imports: [
     BrowserModule,
