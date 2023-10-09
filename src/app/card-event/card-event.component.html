@@ -3,5 +3,6 @@
     <div class="card-body">
       <h5 class="card-title">{{ eventTitle }}</h5>
       <p class="card-text">Date : {{ eventDate }}</p>
+      <p class="card-text" *ngIf="eventTitle === 'Collecte alimentaire'">Horaires de présence : {{ heureEvent }}</p>
     </div>
   </div>
