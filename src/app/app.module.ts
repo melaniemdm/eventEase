@@ -12,6 +12,7 @@ import { HomeComponent } from '../pages/home/home.component';
 import { LoginComponent } from './login/login.component';
 import { InscriptionEventComponent } from './inscription-event/inscription-event.component';
 import { CardEventComponent } from './card-event/card-event.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CardEventComponent } from './card-event/card-event.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule ,
     AppRoutingModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
