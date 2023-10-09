@@ -1,0 +1,23 @@
+<app-header></app-header>
+<div class="sectionFormInscription">
+    <form>
+        <div class="form-group">
+         
+          <div class="form-group">
+            <label for="event">Je souhaite participer à :</label>
+            <select id="event" name="event" [(ngModel)]="participant.event" required>
+              <option value="event1">Bénévole au refuge</option>
+              <option value="event2">Collecte alimentaire</option>
+              <!-- Ajoutez d'autres options d'événements ici -->
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="date">date :</label>
+          <input type="date" id="date" name="date" [(ngModel)]="participant.date" required>
+        </div>
+      
+   
+        <button type="submit" (click)="onSubmit()">S'inscrire à l'événement</button>
+      </form>
+</div>

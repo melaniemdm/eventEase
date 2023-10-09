@@ -6,16 +6,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { LoginComponent } from './login/login.component';
+import { InscriptionEventComponent } from './inscription-event/inscription-event.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {path:'calendar', component:CalendarComponent},
   {path:'login', component:LoginComponent},
+  {path:'inscription', component:InscriptionEventComponent},
 {path:'', component:HomeComponent}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes),
    BrowserAnimationsModule,
+   BrowserModule,
+    FormsModule, 
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,

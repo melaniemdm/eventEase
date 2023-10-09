@@ -10,6 +10,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarComponent } from '../pages/calendar/calendar.component';
 import { HomeComponent } from '../pages/home/home.component';
 import { LoginComponent } from './login/login.component';
+import { InscriptionEventComponent } from './inscription-event/inscription-event.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LoginComponent } from './login/login.component';
     NavigateComponent,
     CalendarComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    InscriptionEventComponent
   ],
   imports: [
     BrowserModule,
