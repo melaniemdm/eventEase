@@ -1,8 +1,23 @@
 #cal-button{
     display: flex;
-    justify-content: space-between;
+     justify-content: space-between;
    }
-#previous, #today, #next, #month, #week, #day{
+   .navigate{
+    border: 2px solid black;
+    text-decoration:none;
+    background-color: white;
+    border-radius: 10%;
+    margin-left: 20px;
+    padding: 20px;
+    color: black;
+    cursor: pointer;
+    &:hover{
+        background-color: blue;
+        color: white;
+    }
+  }
+  
+#previous, #today, #next, #month, #week, #day, #inscription{
     text-decoration:none;
     background-color: white;
     border-radius: 10%;

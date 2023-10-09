@@ -7,6 +7,8 @@
 <button id="month" (click)="setView(CalendarView.Month)">Month</button>
 <button id="week" (click)="setView(CalendarView.Week)">Week</button>
 <button id="day" (click)="setView(CalendarView.Day)">Day</button>
+<a class="navigate" routerLink="/inscription">S'inscrire à une activité</a>
+
      </div> 
 
      <div id="cal-date-field">{{viewDate | calendarDate:(view+'viewTitle'):'en' }}</div> 
