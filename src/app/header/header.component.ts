@@ -18,12 +18,12 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     const token = this.cookieService.get('sessionToken');
      // Affichage du token dans la console
-     console.log('sessionToken', token);
+    // console.log('sessionToken', token);
     if (token) {
       this.apiService.getUser(token).subscribe(
         response => {
           this.firstName = response.firstName;
-          console.log(this.firstName);
+          //console.log(this.firstName);
         },
         error => {
           console.error('Failed to get username', error);

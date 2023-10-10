@@ -1,8 +1,8 @@
 
 <div class="card">
     <div class="card-body">
-      <h5 class="card-title">{{ eventTitle }}</h5>
-      <p class="card-text">Date : {{ eventDate }}</p>
-      <p class="card-text" *ngIf="eventTitle === 'Collecte alimentaire'">Horaires de présence : {{ heureEvent }}</p>
+      <h5 class="card-title">{{ event.titleEvent }}</h5>
+      <p class="card-text">Date : {{ event.date }}</p>
+      <p class="card-text" *ngIf="event.titleEvent === 'Collecte alimentaire'">Horaires de présence : {{ event.heureStart }} {{ event.heureEnd }}</p>
     </div>
   </div>

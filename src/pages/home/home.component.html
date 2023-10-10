@@ -1,8 +1,11 @@
 <app-header></app-header>
 <h1>Mes inscriptions</h1>
+<!-- <div *ngFor="let event of events">
+  <p>{{ event.titleEvent }}</p>
+  <p>{{ event.date }}</p>
+  <p>{{ event.heureStart }}</p>
+  <p>{{ event.heureEnd }}</p>
+</div> -->
 
-<div>
-<app-card-event eventTitle="Bénévole" eventDate="09-10-2023"></app-card-event>
-<app-card-event eventTitle="Collecte alimentaire" eventDate="09-10-2023" heureEvent="9h00 à 12h00"></app-card-event>  
-    <!-- Ajoutez d'autres cartes d'événements ici -->
-  </div>
+
+<app-card-event *ngFor="let event of events" [event]="event"></app-card-event>
