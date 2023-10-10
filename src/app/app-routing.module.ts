@@ -9,12 +9,15 @@ import { LoginComponent } from './login/login.component';
 import { InscriptionEventComponent } from './inscription-event/inscription-event.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { InscriptionLoginComponent } from './inscription-login/inscription-login.component';
 
 const routes: Routes = [
   {path:'calendar', component:CalendarComponent},
   {path:'login', component:LoginComponent},
   {path:'inscription', component:InscriptionEventComponent},
+  {path:'inscriptionLogin', component:InscriptionLoginComponent},
 {path:'', component:HomeComponent}
+
 ];
 
 @NgModule({

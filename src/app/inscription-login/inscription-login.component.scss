@@ -1,0 +1,60 @@
+.logo{
+  position: relative;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+}
+.sectionFormLogin{
+  margin-top: -350px;
+   }
+
+   /* Style pour le formulaire d'inscription */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.form-group {
+  margin-bottom: 15px;
+}
+label {
+  font-weight: bold;
+}
+  
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+button[type="submit"] {
+  background-color: blue;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: gray;
+}
+ /* Style pour les erreurs de validation */
+.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+} 
