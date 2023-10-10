@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service'; // Assurez-vous que le chemin est correct
+import { CookieService } from 'ngx-cookie-service';  // Importez le CookieService
+import { Router } from '@angular/router'; // Importez le service Router
 
 @Component({
   selector: 'app-inscription-login',
@@ -10,7 +12,8 @@ import { ApiService } from 'src/app/services/api.service'; // Assurez-vous que l
 export class InscriptionLoginComponent implements OnInit {
   signupForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) { } // Injectez le service API
+  constructor(private fb: FormBuilder, private apiService: ApiService, private cookieService: CookieService, 
+    private router: Router) { } // Injectez le service API
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -34,15 +37,22 @@ export class InscriptionLoginComponent implements OnInit {
           this.signupForm.value.firstName,
           this.signupForm.value.lastName,
       ).subscribe(
-          (data) => {
-              console.log('Utilisateur créé:', data);
-             
+          (response) => {
+              console.log('Utilisateur créé:', response);
+              // Si l'API renvoie un token, enregistrez-le dans un cookie
+        if (response && response.sessionToken) {
+          this.cookieService.set('sessionToken', response.sessionToken);
+           // Naviguer vers la route racine
+           this.router.navigate(['/']);
+        }
               // Gestion réussie de la création de l'utilisateur
           },
           (error) => {
               console.error('Erreur lors de la création de l’utilisateur:', error);
               // Vous pouvez montrer l'erreur à l'utilisateur via une alerte ou un toast, par exemple
           }
+
       );
-  }}
+  }
+}
 }
