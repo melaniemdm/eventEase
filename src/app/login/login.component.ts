@@ -20,7 +20,7 @@ export class LoginComponent {
     this.apiService.getToken(this.user.email, this.user.password).subscribe(
       response => {
         // Gestion de la réussite de la connexion ici
-        console.log('Réponse réussie :', response);
+       // console.log('Réponse réussie :', response);
         
         // Si l'API renvoie un token, enregistrez-le dans un cookie
         if (response && response.sessionToken) {
@@ -33,7 +33,7 @@ export class LoginComponent {
       },
       error => {
         // Gestion de l'erreur de connexion ici
-        console.error('Erreur de connexion :', error);
+       // console.error('Erreur de connexion :', error);
         this.errorMessage = 'Erreur de connexion. Veuillez vérifier vos informations.';
       }
     );

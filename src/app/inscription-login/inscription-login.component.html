@@ -1,5 +1,7 @@
 <img class="logo" src="../../assets/eventEaseV2.jpeg" alt="logo"/>
-<div class="sectionFormLogin"><form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+<div class="sectionFormLogin">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="username">Nom utilisateur:</label>
       <input id="username" formControlName="username" type="text">
@@ -8,9 +10,16 @@
       </div>
     </div>
     <div class="form-group">
-        <label for="firstname">Prénom:</label>
-        <input id="firstname" formControlName="firstname" type="text">
-        <div *ngIf="signupForm!.get('firstname')!.invalid && signupForm!.get('firstname')!.touched">
+      <label for="lastName">Nom:</label>
+      <input id="lastName" formControlName="lastName" type="text">
+      <div *ngIf="signupForm!.get('lastName')!.invalid && signupForm!.get('lastName')!.touched">
+          Le prénom est obligatoire et doit comporter au moins 3 caractères.
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="firstName">Prénom:</label>
+        <input id="firstName" formControlName="firstName" type="text">
+        <div *ngIf="signupForm!.get('firstName')!.invalid && signupForm!.get('firstName')!.touched">
             Le prénom est obligatoire et doit comporter au moins 3 caractères.
         </div>
       </div>
@@ -30,7 +39,7 @@
       </div>
     </div>
   
-    <button type="submit" (click)="onSubmit()" [disabled]="signupForm!.invalid" > S'enregistrer</button>
+    <button type="submit" [disabled]="signupForm!.invalid" > S'enregistrer</button>
    
 </form>
 </div>

@@ -87,15 +87,29 @@ export class ApiService {
     );
   }
 
+  // Cette méthode handleError est définie comme une méthode de la classe, en dehors du constructeur
   private handleError(error: HttpErrorResponse) {
+    console.error('Détails de l\'erreur:', error);
+
+    let userMessage = 'Quelque chose a mal tourné ; veuillez réessayer plus tard.';
+
     if (error.error instanceof ErrorEvent) {
-      // Erreur côté client
-      console.error('Erreur côté client :', error.error.message);
+        console.error('Erreur côté client :', error.error.message);
     } else {
-      // Erreur côté serveur
-      console.error(`Code d'erreur : ${error.status}, ` + `Message : ${error.message}`);
+        console.error(`Erreur API, statut : ${error.status}, message : ${JSON.stringify(error.error)}`);
+        
+        // Vous pouvez également consigner des propriétés spécifiques de l'objet d'erreur, s'il en a
+        // Par exemple, si l'API renvoie { "message": "Description de l'erreur" }
+        if (error.error.message) {
+            console.error('Message d\'erreur de l\'API :', error.error.message);
+        }
+
+        // Vous pouvez définir d'autres messages utilisateur basés sur le statut de l'erreur HTTP
+        if (error.status === 400) {
+            userMessage = 'Requête invalide. Vérifiez les données soumises.';
+        }
+        // ... Autres statuts HTTP et leurs messages respectifs
     }
-    // Renvoyer une observable avec un message d'erreur convivial pour l'utilisateur
-    return throwError('Une erreur est survenue. Veuillez réessayer plus tard.');
-  }
-}
+
+    return throwError(userMessage);
+}}
