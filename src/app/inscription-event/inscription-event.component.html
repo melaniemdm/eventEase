@@ -1,29 +1,25 @@
 <app-header></app-header>
 <div class="sectionFormInscription">
-    <form>
+    <form [formGroup]="participantForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-         
-          <div class="form-group">
-            <label for="event">Je souhaite participer à :</label>
-            <select id="event" name="event" [(ngModel)]="participant.event" required>
+          <label for="event">Je souhaite participer à :</label>
+          <select id="event" name="event" formControlName="event" required>
               <option value="event1">Bénévole au refuge</option>
               <option value="event2">Collecte alimentaire</option>
               <!-- Ajoutez d'autres options d'événements ici -->
-            </select>
-          </div>
+          </select>
         </div>
         <div class="form-group">
           <label for="date">date :</label>
-          <input type="date" id="date" name="date" [(ngModel)]="participant.date" required>
+          <input type="date" id="date" name="date" formControlName="date" required>
         </div>
-        <div class="form-group" *ngIf="participant.event === 'event2'"> <!-- Afficher seulement si 'Collecte alimentaire' est sélectionné -->
-          <div class="time" for="time">Choix des horaires de présence :  </div>
-          <label for="time">de </label>
-          <input type="time" id="time" name="time" [(ngModel)]="participant.time" required>
-          <label for="time"> a  </label>
-          <input type="time" id="time" name="time" [(ngModel)]="participant.time" required>
+        <div class="form-group" *ngIf="participantForm.value.event === 'event2'"> 
+          <div class="time">Choix des horaires de présence :  </div>
+          <label for="timeStart">de </label>
+          <input type="time" id="timeStart" name="timeStart" formControlName="timeStart" required>
+          <label for="timeEnd"> à </label>
+          <input type="time" id="timeEnd" name="timeEnd" formControlName="timeEnd" required>
         </div>
-   
-        <button type="submit" (click)="onSubmit()">S'inscrire à l'événement</button>
-      </form>
+        <button type="submit">S'inscrire à l'événement</button>
+    </form>
 </div>
