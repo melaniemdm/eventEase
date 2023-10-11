@@ -14,6 +14,7 @@ import { InscriptionEventComponent } from './inscription-event/inscription-event
 import { CardEventComponent } from './card-event/card-event.component';
 import { HttpClientModule } from '@angular/common/http';
 import { InscriptionLoginComponent } from './inscription-login/inscription-login.component';
+import { ApiService } from './services/api.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { InscriptionLoginComponent } from './inscription-login/inscription-login
     AppRoutingModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
