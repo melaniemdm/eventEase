@@ -18,7 +18,8 @@ interface Participant {
 })
 export class InscriptionEventComponent implements OnInit {
   participantForm!: FormGroup;
-  
+  events: any[] = [];  // Propriété pour stocker les événements
+
   constructor(
     private cookieService: CookieService,
     private apiService: ApiService  // Injectez votre service API
@@ -42,7 +43,16 @@ export class InscriptionEventComponent implements OnInit {
         data => console.log('User Data:', data),
         error => console.log('Error:', error)
       );
+       // Appel pour récupérer et afficher les événements dans la console
+   this.apiService.getEvents(token).subscribe(
+    eventsData => console.log('Events Data:', eventsData),
+    error => console.log('Events Error:', error)
+  );
+     
+      
     }
+   
+
   }
 
   onSubmit() {
