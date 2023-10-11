@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
+import { ApiService } from '../services/api.service';
+
 
 interface Participant {
   event: string;
@@ -17,7 +19,10 @@ interface Participant {
 export class InscriptionEventComponent implements OnInit {
   participantForm!: FormGroup;
   
-  constructor(private cookieService: CookieService) {} 
+  constructor(
+    private cookieService: CookieService,
+    private apiService: ApiService  // Injectez votre service API
+  ) {} 
 
   ngOnInit() {
     this.participantForm = new FormGroup({
@@ -27,23 +32,29 @@ export class InscriptionEventComponent implements OnInit {
       timeEnd: new FormControl('')
     });
     
-     // Affichez le token dans la console
-     const token = this.cookieService.get('sessionToken'); 
-     console.log('Token:', token);
-     
+    // Obtenez et affichez le token dans la console
+    const token = this.cookieService.get('sessionToken'); 
+    console.log('Token:', token);
+
+    // Utilisez le token pour obtenir les données de l'utilisateur via votre service API
+    if (token) {
+      this.apiService.getUser(token).subscribe(
+        data => console.log('User Data:', data),
+        error => console.log('Error:', error)
+      );
+    }
   }
 
   onSubmit() {
-    // recuperation des données du formulaire
+    // Récupération des données du formulaire
     console.log('Statut du Formulaire:', this.participantForm.status);
-  console.log('Valeurs du Formulaire:', this.participantForm.value);
+    console.log('Valeurs du Formulaire:', this.participantForm.value);
   
-  if (this.participantForm.valid) {
-    const participant: Participant = this.participantForm.value;
-    console.log(participant);
-  } else {
-    console.log('Formulaire non valide');
-  }}
-
-  
+    if (this.participantForm.valid) {
+      const participant: Participant = this.participantForm.value;
+      console.log(participant);
+    } else {
+      console.log('Formulaire non valide');
+    }
+  }  
 }
