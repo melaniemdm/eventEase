@@ -47,7 +47,7 @@ export class InscriptionEventComponent implements OnInit {
    this.apiService.getEvents(token).subscribe(
     eventsData => console.log('Events Data:', eventsData),
     error => console.log('Events Error:', error)
-  );
+  );// Appel pour récupérer et stocker les événements dans la propriété events
      
       
     }
