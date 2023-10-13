@@ -41,15 +41,48 @@ loadsEventsCalendar() {
       //console.log(JSON.stringify(data));
       // Assurez-vous que chaque objet a des propriétés `start` et `title`.
       this.events = data.map((event: any) => {
-        const eventDate = new Date(event.date);
+        const eventDate = new Date(event.date + 'Z');
+        console.log(eventDate);
+        //modification du start
+        const yourDateStart = new Date(event.date + 'Z');
+        yourDateStart.setHours(8, 0, 0, 0); 
+        console.log(yourDateStart);
 
-        // Créer un nouvel objet Date pour le début (start) de l'événement à 00:01
-        const start = new Date(eventDate);
+        let hours = yourDateStart.getHours();
+let minutes = yourDateStart.getMinutes();
+// Si vous voulez afficher l'heure sous la forme "08:00" avec les zéros au début pour les heures ou les minutes inférieures à 10
+let timeStringStart = (hours).toString().padStart(2, '0') + ':' + 
+                 (minutes).toString().padStart(2, '0');
+                 console.log(timeStringStart); // affiche 8:00
+
+//modification du end
+const yourDateEnd = new Date(event.date + 'Z');
+yourDateEnd.setHours(12, 0, 0, 0); 
+console.log(yourDateEnd);
+
+let hoursEnd = yourDateEnd.getHours();
+let minutesEnd = yourDateEnd.getMinutes();
+
+// Si vous voulez afficher l'heure sous la forme "12:00" avec les zéros au début pour les heures ou les minutes inférieures à 10
+let timeStringEnd = (hoursEnd).toString().padStart(2, '0') + ':' + 
+         (minutesEnd).toString().padStart(2, '0');
+         console.log(timeStringEnd); // affiche 12:00
+
+
+// assignation par défaut
+        let start = new Date(yourDateStart);   
+        let end  = new Date(event.date + 'Z');  
+// condition du type d'event
+        if(event.eventType === 'Bénévole au refuge' ){
+                  // Créer un nouvel objet Date pour le début (start) de l'événement à 00:01
+        start = new Date(timeStringStart);
         start.setHours(8, 0);  // heure, minute
-      
+      console.log(timeStringStart);
         // Créer un nouvel objet Date pour la fin (end) de l'événement à 23:59
-        const end = new Date(eventDate);
+        end = new Date(timeStringEnd);
         end.setHours(12, 0);  // heure, minute
+        console.log(timeStringEnd);
+      }
        // Construisez une chaîne avec les noms des participants
   let participantsStr = '';
   if (event.participant && event.participant.length > 0) {
@@ -58,8 +91,8 @@ loadsEventsCalendar() {
   }
         return {
           title: `${event.titleEvent}${participantsStr}`, // utiliser la propriété 'titleEvent' pour le titre
-          start: start,  // utiliser l'objet Date de début modifié
-          end: end,  // utiliser l'objet Date de fin modifié
+          start: yourDateStart,  // utiliser l'objet Date de début modifié
+          end: yourDateEnd,  // utiliser l'objet Date de fin modifié
           // ... ajoutez ici d'autres propriétés si besoin ...
         };
       });
