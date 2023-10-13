@@ -11,8 +11,7 @@ export class HeaderComponent implements OnInit {
   firstName: string | null = null;
 
   constructor(
-    private apiService: ApiService,
-    private cookieService: CookieService
+      private cookieService: CookieService
   ) {}
 
   ngOnInit(): void {

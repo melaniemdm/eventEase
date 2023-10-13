@@ -28,7 +28,7 @@ export class InscriptionEventComponent implements OnInit {
   participantForm!: FormGroup;
   events: Event[] = [];
   userId: string = '';
-
+  firstName: string | null = null;
   
   constructor(
     private cookieService: CookieService,
@@ -47,7 +47,8 @@ export class InscriptionEventComponent implements OnInit {
      InscriptionUser(functionalId: string, participant: Participant) {
       const token = this.cookieService.get('sessionToken');
       //console.log('Token:', token);
-  
+   //recuper dans le cookie le nom
+   this.firstName = this.cookieService.get('firstName');
       if (token) {
           // Récupération des données utilisateur
           this.userId= this.cookieService.get('userId');
@@ -73,7 +74,7 @@ export class InscriptionEventComponent implements OnInit {
                       DescriptionEvent: participant.event,
                       titleEvent: participant.event,
                       date: participant.date,
-                      participant: [{userId: this.userId, heureStart: participant.timeStart? participant.timeStart: '', heureEnd: participant.timeEnd? participant.timeEnd: ''}],
+                      participant: [{userId: this.userId,firstName: this.firstName, heureStart: participant.timeStart? participant.timeStart: '', heureEnd: participant.timeEnd? participant.timeEnd: ''}],
                   };
                 
                   console.log('New Event:', newEvent);
