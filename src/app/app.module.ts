@@ -15,6 +15,7 @@ import { CardEventComponent } from './card-event/card-event.component';
 import { HttpClientModule } from '@angular/common/http';
 import { InscriptionLoginComponent } from './inscription-login/inscription-login.component';
 import { ApiService } from './services/api.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { ApiService } from './services/api.service';
     AppRoutingModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
-  providers: [ApiService],
+  providers: [ApiService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

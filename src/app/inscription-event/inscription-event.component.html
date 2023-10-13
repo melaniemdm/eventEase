@@ -4,8 +4,8 @@
         <div class="form-group">
           <label for="event">Je souhaite participer à :</label>
           <select id="event" name="event" formControlName="event" required>
-              <option value="event1">Bénévole au refuge</option>
-              <option value="event2">Collecte alimentaire</option>
+              <option value="Benevole au refuge">Bénévole au refuge</option>
+              <option value="Collecte alimentaire">Collecte alimentaire</option>
               <!-- Ajoutez d'autres options d'événements ici -->
           </select>
         </div>
@@ -13,7 +13,7 @@
           <label for="date">date :</label>
           <input type="date" id="date" name="date" formControlName="date" required>
         </div>
-        <div class="form-group" *ngIf="participantForm.value.event === 'event2'"> 
+        <div class="form-group" *ngIf="participantForm.value.event === 'Collecte alimentaire'"> 
           <div class="time">Choix des horaires de présence :  </div>
           <label for="timeStart">de </label>
           <input type="time" id="timeStart" name="timeStart" formControlName="timeStart" required>

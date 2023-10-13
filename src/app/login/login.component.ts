@@ -20,11 +20,13 @@ export class LoginComponent {
     this.apiService.getToken(this.user.email, this.user.password).subscribe(
       response => {
         // Gestion de la réussite de la connexion ici
-       // console.log('Réponse réussie :', response);
+       console.log('Réponse réussie :', response);
         
         // Si l'API renvoie un token, enregistrez-le dans un cookie
         if (response && response.sessionToken) {
           this.cookieService.set('sessionToken', response.sessionToken);
+          this.cookieService.set('userId', response.objectId);
+          this.cookieService.set('firstName', response.firstName);
            // Naviguer vers la route racine
            this.router.navigate(['/']);
         }

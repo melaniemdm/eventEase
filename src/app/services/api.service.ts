@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -81,8 +80,9 @@ export class ApiService {
       'X-Parse-REST-API-Key': 'c4i667Si4Cca196QyhTIWdz4vVuQ1KNR8CTwnlIv',
       'X-Parse-Session-Token': token
     });
-
-    return this.http.get<any[]>(`${this.apiUrl}/classes/Event`, { headers }).pipe(
+  
+    return this.http.get<any>(`${this.apiUrl}/classes/Event`, { headers }).pipe(
+      map(response => response.results),  // Map response to response.results
       catchError(this.handleError)
     );
   }
