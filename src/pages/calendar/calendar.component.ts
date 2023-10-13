@@ -43,6 +43,20 @@ loadsEventsCalendar() {
       this.events = data.map((event: any) => {
         const eventDate = new Date(event.date + 'Z');
         console.log(eventDate);
+        // recupere les heures des collectes
+        const heureParticipantCollectes = event.participant;
+        console.log(heureParticipantCollectes.heureStart);
+        // S'assurer que 'heureParticipantCollectes' est défini et est un tableau
+if (heureParticipantCollectes && Array.isArray(heureParticipantCollectes)) {
+  // Utiliser forEach pour afficher chaque heureStart et heureEnd
+  heureParticipantCollectes.forEach((participant: any, index: number) => {
+      console.log(`Participant ${index + 1}:`);
+      console.log('Heure de début:', participant.heureStart);
+      console.log('Heure de fin:', participant.heureEnd);
+  });
+}
+
+
         //modification du start
         const yourDateStart = new Date(event.date + 'Z');
         yourDateStart.setHours(8, 0, 0, 0); 
@@ -77,11 +91,34 @@ let timeStringEnd = (hoursEnd).toString().padStart(2, '0') + ':' +
                   // Créer un nouvel objet Date pour le début (start) de l'événement à 00:01
         start = new Date(timeStringStart);
         start.setHours(8, 0);  // heure, minute
-      console.log(timeStringStart);
+      //console.log(timeStringStart);
         // Créer un nouvel objet Date pour la fin (end) de l'événement à 23:59
         end = new Date(timeStringEnd);
         end.setHours(12, 0);  // heure, minute
-        console.log(timeStringEnd);
+        //console.log(timeStringEnd);
+        
+      }else if(event.eventType === 'Collecte alimentaire' ){
+
+          // Pour chaque participant
+          event.participant.forEach((participant: any) => {
+            
+            // Assurez-vous que les heures sont définies
+            if (participant.heureStart && participant.heureEnd) {
+      
+              // Créez des objets Date pour le début et la fin
+              const start = new Date(event.date + 'T' + participant.heureStart + ':00Z');
+              const end = new Date(event.date + 'T' + participant.heureEnd + ':00Z');
+      
+              // Ajoutez un nouvel événement avec les détails du participant
+              this.events.push({
+                title: `${event.titleEvent} (Participant : ${participant.firstName})`,
+                start: participant.heureStart,
+                end: participant.heureEnd,
+                // ... autres propriétés si nécessaire ...
+              });
+            }
+          });
+        
       }
        // Construisez une chaîne avec les noms des participants
   let participantsStr = '';
