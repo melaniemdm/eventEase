@@ -3,6 +3,12 @@ import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from 'src/app/services/api.service';
+
+interface Participant {
+  firstName: string;
+  userId: string;
+  // ... d'autres champs ...
+}
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -18,17 +24,7 @@ events:CalendarEvent[] = [];
 activeDayIsOpen = false;
 constructor( private cookieService: CookieService,
   private apiService: ApiService){
-  const event1 = {
-    title:"Mélanie",
-    start:new Date("2023-10-09T10:30"),
-    end:new Date("2023-10-09T12:00"),
-  }
-  const event2 = {
-    title:"Jordan",
-    start:new Date("2023-10-09T10:30"),
-    end:new Date("2023-10-09T12:00"),
-  }
-  this.events.push(event1,event2)
+
 }
 ngOnInit(): void {
   this.loadsEventsCalendar();
@@ -42,7 +38,7 @@ loadsEventsCalendar() {
   this.apiService.getEvents(token).subscribe(
     (data: any) => {
       console.log('Data reçue:', data);
-      console.log(JSON.stringify(data));
+      //console.log(JSON.stringify(data));
       // Assurez-vous que chaque objet a des propriétés `start` et `title`.
       this.events = data.map((event: any) => {
         const eventDate = new Date(event.date);
@@ -54,14 +50,20 @@ loadsEventsCalendar() {
         // Créer un nouvel objet Date pour la fin (end) de l'événement à 23:59
         const end = new Date(eventDate);
         end.setHours(12, 0);  // heure, minute
-      
+       // Construisez une chaîne avec les noms des participants
+  let participantsStr = '';
+  if (event.participant && event.participant.length > 0) {
+    const participantNames = event.participant.map((participant: Participant) =>  participant.firstName); ;
+    participantsStr = ` (Nombre de participant :${participantNames.length}) - ${participantNames.join(', ')}`;
+  }
         return {
-          title: event.titleEvent,  // utiliser la propriété 'titleEvent' pour le titre
+          title: `${event.titleEvent}${participantsStr}`, // utiliser la propriété 'titleEvent' pour le titre
           start: start,  // utiliser l'objet Date de début modifié
           end: end,  // utiliser l'objet Date de fin modifié
           // ... ajoutez ici d'autres propriétés si besoin ...
         };
       });
+     
       console.log(this.events);
     },
     (error) => {
