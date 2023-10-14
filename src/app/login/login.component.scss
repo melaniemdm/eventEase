@@ -64,3 +64,34 @@ button[type="submit"]:hover {
   font-size: 14px;
   margin-top: 5px;
 }
+/* Styles spécifiques pour mobile */
+@media only screen and (max-width: 600px) {
+  
+  .sectionForm {
+    margin-top: 0;
+  }
+
+  .logo {
+    width: 20px;
+    height: 20px;
+  }
+
+  form {
+    max-width: 300px;
+    padding: 10px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: calc(100% - 20px);
+  }
+
+  #button {
+    flex-direction: column;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+  }
+}
