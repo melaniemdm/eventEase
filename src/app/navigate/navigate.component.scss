@@ -1,5 +1,8 @@
+.sectionNavigate{
+    display: flex;
+}
 .navigate{
-    text-decoration:none;
+        text-decoration:none;
     background-color: white;
     border-radius: 10%;
     margin-left: 20px;
@@ -10,4 +13,27 @@
         background-color: blue;
         color: white;
     }
+}
+/* Styles pour tablettes */
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+    .navigate {
+        margin-left: 15px;
+        padding: 15px;
+    }
+}
+
+/* Styles pour mobiles */
+@media only screen and (max-width: 600px) {
+    .sectionNavigate{
+        display: flex;
+        flex-direction: column;
+       
+    }
+    .navigate {
+       margin: 5px;
+        padding: 5px;
+        border-radius: 5%;
+        font-size: 14px;
+    }
+   
 }
