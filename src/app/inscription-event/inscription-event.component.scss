@@ -56,3 +56,40 @@ form {
     margin-top: 5px;
   }
   
+/* Style pour tablettes */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .sectionFormInscription{
+      margin-top: 80px;
+  }
+  form {
+      max-width: 350px;
+      padding: 15px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  button[type="submit"] {
+      width: calc(100% - 20px);
+  }
+}
+
+/* Style pour mobiles */
+@media only screen and (max-width: 600px) {
+  .sectionFormInscription{
+      margin-top: 50px;
+  }
+  form {
+      max-width: 300px;
+      padding: 10px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  button[type="submit"] {
+      width: calc(100% - 10px);
+      padding: 8px;
+  }
+  select{
+   width:  100%;
+  }
+}
