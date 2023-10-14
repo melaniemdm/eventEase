@@ -43,18 +43,7 @@ export class CalendarComponent implements OnInit {
         this.events = data.map((event: any) => {
           const eventDate = new Date(event.date + 'Z');
           console.log(eventDate);
-          // // recupere les heures des collectes
-          // const heureParticipantCollectes = event.participant;
-          // console.log(heureParticipantCollectes.heureStart);
-          // // S'assurer que 'heureParticipantCollectes' est défini et est un tableau
-          // if (heureParticipantCollectes && Array.isArray(heureParticipantCollectes)) {
-          //   // Utiliser forEach pour afficher chaque heureStart et heureEnd
-          //   heureParticipantCollectes.forEach((participant: any, index: number) => {
-          //     console.log(`Participant ${index + 1}:`);
-          //     console.log('Heure de début:', participant.heureStart);
-          //     console.log('Heure de fin:', participant.heureEnd);
-          //   });
-          // }
+       
 
 
           //modification du start
@@ -104,11 +93,7 @@ export class CalendarComponent implements OnInit {
                 end = new Date(yourDateStart);
                 const [heureEnd, minuteEnd] = participant.heureEnd.split(':');
                 end.setHours(heureEnd, minuteEnd);  // heure, minute
-                // Créez des objets Date pour le début et la fin
-                // const startCollecte = new Date(event.date + 'T' + participant.heureStart + ':00Z');
-                // console.log(startCollecte); 
-                // const endCollecte = new Date(event.date + 'T' + participant.heureEnd + ':00Z');
-                // console.log(endCollecte); 
+              
 
                 // Pour chaque participant, vérifier si heureStart est antérieure à start
                 if (participant.heureStart < start) {
@@ -120,13 +105,7 @@ export class CalendarComponent implements OnInit {
                   end = new Date(event.date + 'T' + participant.heureEnd + ':00Z');
                 }
 
-                // Ajoutez un nouvel événement avec les détails du participant
-                // this.events.push({
-                //   title: `${event.titleEvent} (Participant : ${participant.firstName})`,
-                //   start: participant.heureStart,
-                //   end: participant.heureEnd,
-                //   // ... autres propriétés si nécessaire ...
-                // });
+               
               }
             });
           }
@@ -140,7 +119,7 @@ export class CalendarComponent implements OnInit {
             title: `${event.titleEvent}${participantsStr}`, // utiliser la propriété 'titleEvent' pour le titre
             start: start,  // utiliser l'objet Date de début modifié
             end: end,  // utiliser l'objet Date de fin modifié
-            // ... ajoutez ici d'autres propriétés si besoin ...
+            
           };
           console.log(newEvent);
 
