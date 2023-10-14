@@ -3,7 +3,7 @@
      justify-content: space-between;
      flex-wrap: wrap;
      align-items: center;
-     justify-content: center;
+     
    }
    .navigate{
     border: 2px solid black;
@@ -39,10 +39,26 @@
 
 /* Style pour mobiles */
 @media only screen and (max-width: 600px) {
-   
+    #cal-button, a{
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+       }
 
     .navigate, #previous, #today, #next, #month, #week, #day, #inscription {
-               padding: 10px;
+        padding: 5px;
+        margin-left: 10px;
+        margin-bottom: 10px; 
+        margin-top: 10px; /* Ajout d'une marge en bas pour espacer les éléments lorsqu'ils sont empilés */
+    }
+  
+}
+
+/* Style pour mobiles */
+@media only screen and (max-width: 300px) {
+   
+    .navigate, #previous, #today, #next, #month, #week, #day, #inscription {
+        padding: 5px;
         margin-left: 10px;
         margin-bottom: 10px; 
         margin-top: 10px; /* Ajout d'une marge en bas pour espacer les éléments lorsqu'ils sont empilés */
