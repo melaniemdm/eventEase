@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../services/api.service';
 
-interface Participant {
+interface Participation {
   event: string;
   date: string;
   timeStart?: string;
@@ -11,12 +11,17 @@ interface Participant {
   userId: string;
 }
 interface Event {
-  participants: Participant[];
+  participant: Participant[];
   titleEvent: string;
   functionalId: string;
   // autres champs ici...
 }
-
+interface Participant {
+  firstName: string;
+  heureStart?: string;
+  heureEnd?: string;
+  userId: string;
+}
 
 
 @Component({
@@ -29,11 +34,11 @@ export class InscriptionEventComponent implements OnInit {
   events: Event[] = [];
   userId: string = '';
   firstName: string | null = null;
-  
+  participant: Participant[] = [];
   constructor(
     private cookieService: CookieService,
     private apiService: ApiService  // Injectez votre service API
-  ) {} 
+  ) { }
 
   ngOnInit() {
     this.participantForm = new FormGroup({
@@ -42,77 +47,107 @@ export class InscriptionEventComponent implements OnInit {
       timeStart: new FormControl(''),
       timeEnd: new FormControl('')
     });
-     }
-
-     InscriptionUser(functionalId: string, participant: Participant) {
-      const token = this.cookieService.get('sessionToken');
-      //console.log('Token:', token);
-   //recuper dans le cookie le nom
-   this.firstName = this.cookieService.get('firstName');
-      if (token) {
-          // Récupération des données utilisateur
-          this.userId= this.cookieService.get('userId');
-        // Récupération des événements
-        this.apiService.getEvents(token).subscribe(
-          eventsData => {
-              console.log('Events Data:', eventsData);
-              console.log('User ID:', this.userId);
-              console.log('User functionalId:', functionalId);
-              console.log(participant);
-
-              this.events = eventsData;
-              const matchingEvent = this.events.find(event => event.functionalId === functionalId);
-
-              // Vérification de l'existence du functionalId
-              if (matchingEvent) {
-                  console.log('Matching event found:', matchingEvent);
-              } else {
-                  console.log('No matching event found');
-
-                  // Création d'un nouvel objet event avec les données du formulaire et du userId
-                  const newEvent = {
-                      DescriptionEvent: participant.event,
-                      titleEvent: participant.event,
-                      date: participant.date,
-                      participant: [{userId: this.userId,firstName: this.firstName, heureStart: participant.timeStart? participant.timeStart: '', heureEnd: participant.timeEnd? participant.timeEnd: ''}],
-                  };
-                
-                  console.log('New Event:', newEvent);
-
-                  // Logique pour sauvegarder `newEvent` avec l'API
-                  this.apiService.postNewEvent( token, newEvent).subscribe(
-                    response => {
-                        console.log('Event created successfully:', response);
-                    },
-                    error => {
-                        console.log('Error creating event:', error);
-                    }
-                  );
-              }
-          },
-          error => console.log('Events Error:', error)
-        );
-
-      }
-      return false;
   }
-  
+
+  InscriptionUser(functionalId: string, participation: Participation) {
+    const token = this.cookieService.get('sessionToken');
+    //console.log('Token:', token);
+    //recuper dans le cookie le nom
+    this.firstName = this.cookieService.get('firstName');
+    if (token) {
+      // Récupération des données utilisateur
+      this.userId = this.cookieService.get('userId');
+      // Récupération des événements
+      this.apiService.getEvents(token).subscribe(
+        eventsData => {
+          //console.log('Events Data:', eventsData);
+          // console.log('User ID:', this.userId);
+          // console.log('User functionalId:', functionalId);
+          // console.log(participant);
+
+          this.events = eventsData;
+          const matchingEvent = this.events.find(event => event.functionalId === functionalId);
+
+          // Vérification de l'existence du functionalId
+          if (matchingEvent) {
+            console.log('Matching event found:', matchingEvent);
+            // Récupération des participants
+            const participants = matchingEvent.participant;
+            console.log('Participants:', participants);
+            // Vérification de l'existence du participant
+            const matchingParticipant = participants.find(participant => participant.userId === this.userId);
+            // Ajout du participant s'il n'existe pas
+            if (!matchingParticipant) {
+              // construction du participant
+              const newParticipant: Participant = {
+                firstName: this.firstName ? this.firstName : '',
+                userId: this.userId,
+                heureStart: participation.timeStart,
+                heureEnd: participation.timeEnd
+              }
+              //ajout du participant
+              matchingEvent.participant.push(newParticipant);
+              console.log('Participant added:', matchingEvent);
+              // Enregistrement de l'événement
+              this.apiService.updateEvent(token, matchingEvent).subscribe(
+                response => {
+                  console.log('Event created successfully:', response);
+                },
+                error => {
+                  console.log('Error creating event:', error);
+                }
+              );
+            } else {
+              alert('Vous êtes déja inscrit à cet évènement')
+            }
+          } else {
+            console.log('No matching event found');
+
+            // Création d'un nouvel objet event avec les données du formulaire et du userId
+            const newEvent = {
+              DescriptionEvent: participation.event,
+              titleEvent: participation.event,
+              date: participation.date,
+              participant: [{ userId: this.userId, firstName: this.firstName, heureStart: participation.timeStart ? participation.timeStart : '', heureEnd: participation.timeEnd ? participation.timeEnd : '' }],
+              functionalId: participation.event + '-' + participation.date
+            };
+
+            console.log('New Event:', newEvent);
+
+            // Logique pour sauvegarder `newEvent` avec l'API
+            this.apiService.postNewEvent(token, newEvent).subscribe(
+              response => {
+                console.log('Event created successfully:', response);
+              },
+              error => {
+                console.log('Error creating event:', error);
+              }
+            );
+          }
+        },
+        error => console.log('Events Error:', error)
+      );
+
+    }
+    return false;
+  }
+
 
   onSubmit() {
-  
-   
+
+
     if (this.participantForm.valid) {
-      const participant: Participant = this.participantForm.value;
-       //construction functionalId
-      const functionalId = `${participant.event}-${participant.date}`;
-  
+      const participation: Participation = this.participantForm.value;
+      //construction functionalId
+      const functionalId = `${participation.event}-${participation.date}`;
+
       console.log('Constructed functionalId:', functionalId);
-  
+
       // Check if user is already a participant
-     this.InscriptionUser(functionalId, participant)
+      this.InscriptionUser(functionalId, participation)
     } else {
       console.log('Invalid form');
     }
   }
-    
+
 }

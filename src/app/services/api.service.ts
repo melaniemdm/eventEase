@@ -73,6 +73,24 @@ export class ApiService {
     );
   }
 
+ // Mise à jour d'un événement
+ updateEvent(token: string, event: any): Observable<any> {
+  const headers = new HttpHeaders({
+    'X-Parse-Application-Id': 'QWTbbVUM0cgT6tJ7lLQy9PkbjXMBKowV8MZbcHuf',
+    'X-Parse-REST-API-Key': 'c4i667Si4Cca196QyhTIWdz4vVuQ1KNR8CTwnlIv',
+    'X-Parse-Session-Token': token
+  });
+// creer un replica de event sans objectId
+const eventReplica = { ...event };
+delete eventReplica.objectId;
+delete eventReplica.createdAt;
+delete eventReplica.updatedAt;
+
+  return this.http.put(`${this.apiUrl}/classes/Event/${event.objectId}`, eventReplica, { headers }).pipe(
+    catchError(this.handleError)
+  );
+}
+
   // Récupération des événements
   getEvents(token: string): Observable<any[]> {
     const headers = new HttpHeaders({

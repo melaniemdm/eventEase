@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarEvent,CalendarView } from 'angular-calendar';
+import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from 'src/app/services/api.service';
@@ -7,7 +7,8 @@ import { ApiService } from 'src/app/services/api.service';
 interface Participant {
   firstName: string;
   userId: string;
-  // ... d'autres champs ...
+  heureStart?: string;
+  heureEnd?: string;
 }
 @Component({
   selector: 'app-calendar',
@@ -43,7 +44,7 @@ export class CalendarComponent implements OnInit {
         this.events = data.map((event: any) => {
           const eventDate = new Date(event.date + 'Z');
           console.log(eventDate);
-       
+
 
 
           //modification du start
@@ -90,36 +91,50 @@ export class CalendarComponent implements OnInit {
                 let participantStart = new Date(yourDateStart);
                 const [heureStart, minuteStart] = participant.heureStart.split(':');
                 participantStart.setHours(heureStart, minuteStart);  // heure, minute
-                end = new Date(yourDateStart);
+                let participantEnd = new Date(yourDateStart);
                 const [heureEnd, minuteEnd] = participant.heureEnd.split(':');
-                end.setHours(heureEnd, minuteEnd);  // heure, minute
-              
+                participantEnd.setHours(heureEnd, minuteEnd);  // heure, minute
+                console.log("toto");
+
+                console.log('participantStart', participantStart);
+                console.log('participationEnd', participantStart);
+                console.log('start', start);
+                console.log('end', end);
+
+
+
 
                 // Pour chaque participant, vérifier si heureStart est antérieure à start
-                if (participant.heureStart < start) {
+                if (participantStart < start) {
                   // remplacer start par heureStart du participant
-                  start = new Date(event.date + 'T' + participant.heureStart + ':00Z');
+                  start = new Date(participantStart);
                 }
                 // pour chaque participant, vérifier si heureEnd est supérieure à end
-                if (participant.heureEnd > end) {
-                  end = new Date(event.date + 'T' + participant.heureEnd + ':00Z');
+                if (participantEnd > end) {
+                  end = new Date(participantEnd);
                 }
 
-               
+
               }
             });
           }
           // Construisez une chaîne avec les noms des participants
           let participantsStr = '';
           if (event.participant && event.participant.length > 0) {
-            const participantNames = event.participant.map((participant: Participant) => participant.firstName);;
+            const participantNames = event.participant.map((participant: Participant) => {
+              let firstName = participant.firstName;
+              if (participant.heureStart && participant.heureEnd) {
+                firstName += ' (' + participant.heureStart + '-' + participant.heureEnd + ')';
+              }
+              return firstName
+            });
             participantsStr = ` (Nombre de participant :${participantNames.length}) - ${participantNames.join(', ')}`;
           }
           const newEvent = {
             title: `${event.titleEvent}${participantsStr}`, // utiliser la propriété 'titleEvent' pour le titre
             start: start,  // utiliser l'objet Date de début modifié
             end: end,  // utiliser l'objet Date de fin modifié
-            
+
           };
           console.log(newEvent);
 
