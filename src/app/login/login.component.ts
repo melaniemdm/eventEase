@@ -40,4 +40,9 @@ export class LoginComponent {
       }
     );
   }
+
+  onSignup(): void {
+    // envoie vers la page inscription
+ this.router.navigate(['/inscriptionLogin']);
+  }
 }
