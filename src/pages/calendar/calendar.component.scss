@@ -1,6 +1,9 @@
 #cal-button{
     display: flex;
      justify-content: space-between;
+     flex-wrap: wrap;
+     align-items: center;
+     justify-content: center;
    }
    .navigate{
     border: 2px solid black;
@@ -32,24 +35,14 @@
         color: white;
     }
 }   
-/* Style pour tablettes */
-@media only screen and (min-width: 601px) and (max-width: 900px) {
-    .navigate, #previous, #today, #next, #month, #week, #day, #inscription {
-        padding: 15px;
-        margin-left: 15px;
-    }
-  
-}
+
 
 /* Style pour mobiles */
 @media only screen and (max-width: 600px) {
-    #cal-button {
-        flex-direction: column;
-        align-items: center;
-    }
+   
 
     .navigate, #previous, #today, #next, #month, #week, #day, #inscription {
-        padding: 10px;
+               padding: 10px;
         margin-left: 10px;
         margin-bottom: 10px; 
         margin-top: 10px; /* Ajout d'une marge en bas pour espacer les éléments lorsqu'ils sont empilés */
