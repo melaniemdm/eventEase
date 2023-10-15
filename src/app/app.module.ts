@@ -16,6 +16,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { InscriptionLoginComponent } from './inscription-login/inscription-login.component';
 import { ApiService } from './services/api.service';
 import { CookieService } from 'ngx-cookie-service';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -35,7 +38,7 @@ import { CookieService } from 'ngx-cookie-service';
     HttpClientModule,
     FormsModule ,
     AppRoutingModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   providers: [ApiService, CookieService],
   bootstrap: [AppComponent]
