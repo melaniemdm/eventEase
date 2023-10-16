@@ -3,8 +3,11 @@ import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from 'src/app/services/api.service';
+import { Router } from '@angular/router';
 
-
+interface ExtendedCalendarEvent extends CalendarEvent {
+  type?: string;
+}
 
 interface Participant {
   firstName: string;
@@ -17,18 +20,23 @@ interface Participant {
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
+
+
 export class CalendarComponent implements OnInit {
+  constructor(private cookieService: CookieService,
+    private apiService: ApiService,private router: Router) {
+
+  }
   viewDate: Date = new Date();
   view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
 
-  events: CalendarEvent[] = [];
-
+  events: ExtendedCalendarEvent[] = [];
+  
   activeDayIsOpen = false;
-  constructor(private cookieService: CookieService,
-    private apiService: ApiService) {
 
-  }
+
+ 
   ngOnInit(): void {
     this.loadsEventsCalendar();
   }
@@ -96,12 +104,11 @@ export class CalendarComponent implements OnInit {
                 let participantEnd = new Date(yourDateStart);
                 const [heureEnd, minuteEnd] = participant.heureEnd.split(':');
                 participantEnd.setHours(heureEnd, minuteEnd);  // heure, minute
-                console.log("toto");
-
-                console.log('participantStart', participantStart);
-                console.log('participationEnd', participantStart);
-                console.log('start', start);
-                console.log('end', end);
+                // console.log("toto");
+                // console.log('participantStart', participantStart);
+                // console.log('participationEnd', participantStart);
+                // console.log('start', start);
+                // console.log('end', end);
 
 
 
@@ -122,6 +129,7 @@ export class CalendarComponent implements OnInit {
           }
           // Construisez une chaîne avec les noms des participants
           let participantsStr = '';
+         
           if (event.participant && event.participant.length > 0) {
             const participantNames = event.participant.map((participant: Participant) => {
               let firstName = participant.firstName;
@@ -131,14 +139,16 @@ export class CalendarComponent implements OnInit {
               return firstName
             });
             participantsStr = ` (Nombre de participant :${participantNames.length}) - ${participantNames.join(', ')}`;
+           
           }
           const newEvent = {
-            title: `${event.titleEvent}${participantsStr}`, // utiliser la propriété 'titleEvent' pour le titre
+            title: `${event.titleEvent}${participantsStr} `, // utiliser la propriété 'titleEvent' pour le titre
             start: start,  // utiliser l'objet Date de début modifié
             end: end,  // utiliser l'objet Date de fin modifié
-
+            type: event.typeEvent 
           };
           console.log(newEvent);
+
 
           return newEvent
         });
@@ -150,6 +160,25 @@ export class CalendarComponent implements OnInit {
       }
     );
   }
+//au click envoie sur la page d'inscription
+eventClicked({ event }: { event: ExtendedCalendarEvent }): void {
+  console.log('Event clicked', event.title);
+  const queryParams: { type?: string; date: string } = {
+    date: event.start.toISOString() 
+  };
+  console.log(queryParams);
+
+  
+  if (event.title) {
+    queryParams.type = event.title.split('(N')[0];
+}
+console.log(queryParams);
+  this.router.navigate(['/inscription'], { queryParams });
+}
+
+
+
+
 
   setView(view: CalendarView) {
     this.view = view;
@@ -159,6 +188,7 @@ export class CalendarComponent implements OnInit {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0
+        
       ) {
         this.activeDayIsOpen = false;
       } else {
