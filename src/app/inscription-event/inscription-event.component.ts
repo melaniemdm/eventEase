@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../services/api.service';
-
+import { ActivatedRoute, Router } from '@angular/router';
 interface Participation {
   event: string;
   date: string;
@@ -37,17 +37,39 @@ export class InscriptionEventComponent implements OnInit {
   participant: Participant[] = [];
   constructor(
     private cookieService: CookieService,
-    private apiService: ApiService  // Injectez votre service API
-  ) { }
+    private apiService: ApiService,  // Injectez votre service API
+    private route: ActivatedRoute,
+    private router: Router)
+  { }
 
   ngOnInit() {
-    this.participantForm = new FormGroup({
-      event: new FormControl('', Validators.required),
-      date: new FormControl('', Validators.required),
-      timeStart: new FormControl(''),
-      timeEnd: new FormControl('')
-    });
-  }
+    //url  
+    const url = this.router.url;
+    console.log(url); 
+// Si vous voulez juste avoir la valeur actuelle de l'URL (pas réactive)
+const typeFromUrl = this.route.snapshot.queryParams['type'] ? this.route.snapshot.queryParams['type'].trim() : '';
+const rawDate = this.route.snapshot.queryParams['date'];
+const dateFromUrl = rawDate ? String(rawDate).split('T')[0].trim() : '';
+// console.log('Type:', typeFromUrl);
+// console.log('Date:', dateFromUrl);
+
+// Si 'type' est présent dans l'URL et n'est pas null, utilisez-le comme valeur initiale pour le champ 'event'. Sinon, utilisez une chaîne vide.
+const initialEventType = typeFromUrl || '';
+const initialEventDate = dateFromUrl || '';
+// console.log('Type from URL:', initialEventType);
+// console.log('Date from URL:', initialEventDate);
+
+//formulaire
+this.participantForm = new FormGroup({
+  event: new FormControl(initialEventType, Validators.required),
+  date: new FormControl(initialEventDate, Validators.required),
+  timeStart: new FormControl(''),
+  timeEnd: new FormControl('')
+});
+// console.log(this.participantForm);
+//  console.log(this.participantForm.value.event);
+//  console.log(this.participantForm.value.date);
+}
 
   InscriptionUser(functionalId: string, participation: Participation) {
     const token = this.cookieService.get('sessionToken');
