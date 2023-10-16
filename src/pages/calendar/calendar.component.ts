@@ -26,8 +26,7 @@ export class CalendarComponent implements OnInit {
   constructor(private cookieService: CookieService,
     private apiService: ApiService,
     private router: Router) {
-      this.clickedDate = new Date();
-      this.clickedColumn = 0;
+    
   }
   viewDate: Date = new Date();
   view: CalendarView = CalendarView.Week;
@@ -35,8 +34,7 @@ export class CalendarComponent implements OnInit {
   events: ExtendedCalendarEvent[] = [];
   activeDayIsOpen = false;
 // au click de la date, redirection vers la page d'inscription dayClicked
-  clickedDate: Date;
-  clickedColumn: number;
+  
   ngOnInit(): void {
     this.loadsEventsCalendar();
   }
@@ -183,27 +181,31 @@ console.log(queryParams);
     this.view = view;
   }
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    this.clickedDate = date;
-    
+    console.log('Clicked', date, events);
+    console.log(events);
+    if(events.length === 0) {
+      date.setHours(12,0);
+      //create params with date cliked
+           const queryParams: { type?: string; date: string } = {
+        date: date.toISOString() 
+      };
+           
+      console.log(queryParams);
+    this.router.navigate(['/inscription'], { queryParams });
+    }
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0
+        
       ) {
         this.activeDayIsOpen = false;
       } else {
-        this.activeDayIsOpen = true;
+        this.activeDayIsOpen = true
       }
       this.viewDate = date;
     }
-
-    // Redirect to the inscription page
-    this.router.navigate(['/inscription'], {
-      queryParams: {
-        clickedDate: this.clickedDate.toISOString()
-      }
-    });
-}
+  }
 
 
 }
