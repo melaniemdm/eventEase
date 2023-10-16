@@ -174,7 +174,12 @@ console.log(queryParams);
   this.router.navigate(['/inscription'], { queryParams });
 }
 
-
+emptyDayClicked(date: Date): void {
+  console.log('Empty day clicked', date);
+  const queryParams: { type?: string; date: string } = {
+    date: date.toISOString() }
+    this.router.navigate(['/inscription'], { queryParams });
+}
 
 
   setView(view: CalendarView) {

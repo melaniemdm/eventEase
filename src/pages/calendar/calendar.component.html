@@ -37,14 +37,16 @@
       [viewDate]="viewDate" 
       [events]="events"
       (eventClicked)="eventClicked($event)"
-      
+      (hourSegmentClicked)="emptyDayClicked($event.date)" 
       >
    </mwl-calendar-week-view>
 
       <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" 
       [viewDate]="viewDate" 
       [events]="events"
-      (eventClicked)="eventClicked($event)">
+      (eventClicked)="eventClicked($event)"
+      (hourSegmentClicked)="emptyDayClicked($event.date)" 
+      >
       </mwl-calendar-day-view>
    </span>
 
