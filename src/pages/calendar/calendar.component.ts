@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
-import { isSameDay, isSameMonth } from 'date-fns';
+import { getISOWeek, isSameDay, isSameMonth } from 'date-fns';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
@@ -24,19 +24,19 @@ interface Participant {
 
 export class CalendarComponent implements OnInit {
   constructor(private cookieService: CookieService,
-    private apiService: ApiService,private router: Router) {
-
+    private apiService: ApiService,
+    private router: Router) {
+      this.clickedDate = new Date();
+      this.clickedColumn = 0;
   }
   viewDate: Date = new Date();
   view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
-
   events: ExtendedCalendarEvent[] = [];
-  
   activeDayIsOpen = false;
-
-
- 
+// au click de la date, redirection vers la page d'inscription dayClicked
+  clickedDate: Date;
+  clickedColumn: number;
   ngOnInit(): void {
     this.loadsEventsCalendar();
   }
@@ -179,23 +179,31 @@ console.log(queryParams);
 
 
 
-
   setView(view: CalendarView) {
     this.view = view;
   }
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    this.clickedDate = date;
+    
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0
-        
       ) {
         this.activeDayIsOpen = false;
       } else {
-        this.activeDayIsOpen = true
+        this.activeDayIsOpen = true;
       }
       this.viewDate = date;
     }
-  }
+
+    // Redirect to the inscription page
+    this.router.navigate(['/inscription'], {
+      queryParams: {
+        clickedDate: this.clickedDate.toISOString()
+      }
+    });
+}
+
 
 }

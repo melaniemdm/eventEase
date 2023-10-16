@@ -5,6 +5,8 @@
 <div id="calendar-container">
    <div id="cal-button">
 
+   
+
       <div id="cal-view-nav-button">
          <button id="month" (click)="setView(CalendarView.Month)">Month</button>
          <button id="week" (click)="setView(CalendarView.Week)">Week</button>
@@ -22,12 +24,28 @@
 
    </div>
    <span [ngSwitch]="view">
-      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
-         [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"  (eventClicked)="eventClicked($event)"></mwl-calendar-month-view>
-      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate"
-         [events]="events" (eventClicked)="eventClicked($event)"></mwl-calendar-week-view>
-      <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate"
-         [events]="events" (eventClicked)="eventClicked($event)"></mwl-calendar-day-view>
+      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" 
+         [viewDate]="viewDate" [events]="events"
+         [activeDayIsOpen]="activeDayIsOpen" 
+         (dayClicked)="dayClicked($event.day)"      
+         (eventClicked)="eventClicked($event)"  
+         (columnHeaderClicked)="clickedColumn = $event.isoDayNumber"
+       >
+      </mwl-calendar-month-view>
+
+      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" 
+      [viewDate]="viewDate" 
+      [events]="events"
+      (eventClicked)="eventClicked($event)"
+      
+      >
+   </mwl-calendar-week-view>
+
+      <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" 
+      [viewDate]="viewDate" 
+      [events]="events"
+      (eventClicked)="eventClicked($event)">
+      </mwl-calendar-day-view>
    </span>
 
 </div>
