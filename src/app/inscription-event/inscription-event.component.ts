@@ -167,6 +167,8 @@ this.participantForm = new FormGroup({
 
       // Check if user is already a participant
       this.InscriptionUser(functionalId, participation)
+       // Naviguer vers la route home
+       this.router.navigate(['/home']);
     } else {
       console.log('Invalid form');
     }
