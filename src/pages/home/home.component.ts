@@ -55,6 +55,7 @@ export class HomeComponent implements OnInit {
         // console.log(data.results[0].date)
         // console.log(data.results[0].heureStart)
         // console.log(data.results[0].heureEnd)
+        
       },
       (error) => {
         console.error('Erreur lors de la récupération des événements:', error);

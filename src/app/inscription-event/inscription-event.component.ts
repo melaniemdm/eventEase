@@ -50,14 +50,11 @@ export class InscriptionEventComponent implements OnInit {
 const typeFromUrl = this.route.snapshot.queryParams['type'] ? this.route.snapshot.queryParams['type'].trim() : '';
 const rawDate = this.route.snapshot.queryParams['date'];
 const dateFromUrl = rawDate ? String(rawDate).split('T')[0].trim() : '';
-// console.log('Type:', typeFromUrl);
-// console.log('Date:', dateFromUrl);
 
 // Si 'type' est présent dans l'URL et n'est pas null, utilisez-le comme valeur initiale pour le champ 'event'. Sinon, utilisez une chaîne vide.
 const initialEventType = typeFromUrl || '';
 const initialEventDate = dateFromUrl || '';
-// console.log('Type from URL:', initialEventType);
-// console.log('Date from URL:', initialEventDate);
+
 
 //formulaire
 this.participantForm = new FormGroup({
@@ -66,15 +63,12 @@ this.participantForm = new FormGroup({
   timeStart: new FormControl(''),
   timeEnd: new FormControl('')
 });
-// console.log(this.participantForm);
-//  console.log(this.participantForm.value.event);
-//  console.log(this.participantForm.value.date);
+
 }
 
   InscriptionUser(functionalId: string, participation: Participation) {
     const token = this.cookieService.get('sessionToken');
-    //console.log('Token:', token);
-    //recuper dans le cookie le nom
+     //recuper dans le cookie le nom
     this.firstName = this.cookieService.get('firstName');
     if (token) {
       // Récupération des données utilisateur
@@ -82,11 +76,7 @@ this.participantForm = new FormGroup({
       // Récupération des événements
       this.apiService.getEvents(token).subscribe(
         eventsData => {
-          //console.log('Events Data:', eventsData);
-          // console.log('User ID:', this.userId);
-          // console.log('User functionalId:', functionalId);
-          // console.log(participant);
-
+         
           this.events = eventsData;
           const matchingEvent = this.events.find(event => event.functionalId === functionalId);
 
@@ -114,6 +104,7 @@ this.participantForm = new FormGroup({
               this.apiService.updateEvent(token, matchingEvent).subscribe(
                 response => {
                   console.log('Event created successfully:', response);
+
                 },
                 error => {
                   console.log('Error creating event:', error);
@@ -140,6 +131,8 @@ this.participantForm = new FormGroup({
             this.apiService.postNewEvent(token, newEvent).subscribe(
               response => {
                 console.log('Event created successfully:', response);
+                   // Naviguer vers la route home
+       this.router.navigate(['/home']);
               },
               error => {
                 console.log('Error creating event:', error);
@@ -167,8 +160,7 @@ this.participantForm = new FormGroup({
 
       // Check if user is already a participant
       this.InscriptionUser(functionalId, participation)
-       // Naviguer vers la route home
-       this.router.navigate(['/home']);
+    
     } else {
       console.log('Invalid form');
     }
