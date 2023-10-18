@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { CalendarEvent, CalendarMonthViewDay, CalendarView } from 'angular-calendar';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 import { EventColor } from 'calendar-utils';
+
 interface ExtendedCalendarEvent extends CalendarEvent {
   type?: string;
 }
 
 const colors: Record<string, EventColor> = {
   red: {
-    primary: '#ad2121',
+    primary: '#ff2121',
     secondary: '#FAE3E3',
   },
   blue: {
@@ -21,17 +22,14 @@ const colors: Record<string, EventColor> = {
   yellow: {
     primary: '#e3bc08',
     secondary: '#FDF1BA',
-  },
-  pink: {
-    primary: '#FFC0CB',
-    secondary: '#FFB6C1',
-  },
+  }
+
 };
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
-})
+ })
 
 
 export class CalendarComponent implements OnInit {
@@ -43,7 +41,7 @@ export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
   view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
-  events: ExtendedCalendarEvent[] = [];
+  events: CalendarEvent<{ incrementsBadgeTotal: boolean }>[] = [];
   activeDayIsOpen = false;
   // au click de la date, redirection vers la page d'inscription dayClicked
 
@@ -98,23 +96,39 @@ export class CalendarComponent implements OnInit {
             }).join(', ')}` : '';
           // choix des couleurs en fonctions du types d'activité
           if (event.titleEvent === 'Collecte alimentaire') {
+
             return {
               title: `${event.titleEvent}${participantsStr}`,
               start: start,
               end: end,
               type: event.typeEvent,
-              color: { ...colors['blue'] }
+              color: { ...colors['blue'] },
+            
             };
           } else {
+            // choix des couleurs si le nombre de participants est superieur a 4
+            if (event.participant.length < 4) {
+              return {
+                title: `${event.titleEvent}${participantsStr}`,
+                start: start,
+                end: end,
+                type: event.typeEvent,
+                color: { ...colors['red'] },
+              
+
+              };
+            }
+
+
             return {
               title: `${event.titleEvent}${participantsStr}`,
               start: start,
               end: end,
               type: event.typeEvent,
-              color: { ...colors['yellow'] }
+              color: { ...colors['yellow'] },
+             
             };
           }
-
 
         }
 
@@ -133,7 +147,7 @@ export class CalendarComponent implements OnInit {
   //au click envoie sur la page d'inscription
   eventClicked({ event }: { event: ExtendedCalendarEvent }): void {
     console.log('Event clicked', event.title);
-    
+
     const queryParams: { type?: string; date: string } = {
       date: event.start.toISOString()
     };
@@ -142,7 +156,7 @@ export class CalendarComponent implements OnInit {
 
     if (event.title) {
       queryParams.type = event.title.split('(N')[0];
-   
+
     }
     console.log(queryParams);
     this.router.navigate(['/inscription'], { queryParams });
@@ -187,5 +201,5 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-
+ 
 }
