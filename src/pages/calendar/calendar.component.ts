@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
-import { getISOWeek, isSameDay, isSameMonth } from 'date-fns';
+import { isSameDay, isSameMonth } from 'date-fns';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
@@ -9,12 +9,7 @@ interface ExtendedCalendarEvent extends CalendarEvent {
   type?: string;
 }
 
-interface Participant {
-  firstName: string;
-  userId: string;
-  heureStart?: string;
-  heureEnd?: string;
-}
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -92,13 +87,19 @@ export class CalendarComponent implements OnInit {
             end: end,
             type: event.typeEvent
           };
-        });
+        
+
+        }
+        
+
+        );
     
         console.log(this.events);
       },
       (error) => {
         console.error('Erreur lors de la récupération des événements:', error);
       }
+
     );
     
   }
