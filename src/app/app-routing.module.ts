@@ -16,7 +16,8 @@ const routes: Routes = [
   {path:'login', component:LoginComponent},
   {path:'inscription', component:InscriptionEventComponent},
   {path:'inscriptionLogin', component:InscriptionLoginComponent},
-{path:'', component:HomeComponent}
+{path:'', component:HomeComponent},
+{path:'home', component:HomeComponent}
 
 ];
 

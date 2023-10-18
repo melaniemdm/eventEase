@@ -4,5 +4,6 @@
       <h5 class="card-title">{{ event.titleEvent }}</h5>
       <p class="card-text">Date : {{ event.date }}</p>
       <p class="card-text" *ngIf="event.titleEvent === 'Collecte alimentaire'">Horaires de présence : {{ heureStart }} à {{ heureEnd }}</p>
+      <button (click)="unregister(event)" type="button">Se désinscrire</button>
     </div>
   </div>
