@@ -42,19 +42,20 @@ export class HomeComponent implements OnInit {
   loadEvents(): void {
     const token = this.cookieService.get('sessionToken');
     const userId = this.cookieService.get('userId');
-    //console.log('Token:', token);
+    
     // S'assurer que le token est présent avant de faire l'appel API
     this.apiService.getEvents(token).subscribe(
       (data: any) => {
-        //console.log('Data reçue:', data);
-        this.events = data; // Remplacez par la clé réelle
-        //create array my events
-        this.myEvents=this.events.filter(event => event.participant.find((participant:Participant) => participant.userId === userId));
+        // Remplacez par la clé réelle
+        this.events = data; 
+       
+        this.myEvents = this.events
+        .filter(event => event.participant.find((participant: Participant) => participant.userId === userId))
+        .sort((a, b) => {
+            return a.date.localeCompare(b.date);
+          
+        });
         console.log(this.myEvents);
-        // console.log(data.results[0].titleEvent)
-        // console.log(data.results[0].date)
-        // console.log(data.results[0].heureStart)
-        // console.log(data.results[0].heureEnd)
         
       },
       (error) => {
