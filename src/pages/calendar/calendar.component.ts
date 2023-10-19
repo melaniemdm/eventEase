@@ -87,7 +87,7 @@ export class CalendarComponent implements OnInit {
           }
 
           const participantsStr = event.participant && event.participant.length > 0 ?
-            ` (Nombre de participant :${event.participant.length}) - ${event.participant.map((participant: any) => {
+            `<br>  (${event.participant.length} Participant(s)) - ${event.participant.map((participant: any) => {
               let name = participant.firstName;
               if (participant.heureStart && participant.heureEnd) {
                 name += ` (${participant.heureStart}-${participant.heureEnd})`;
