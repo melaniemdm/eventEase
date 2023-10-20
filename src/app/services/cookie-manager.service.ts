@@ -20,15 +20,20 @@ export class CookieManagerService {
   }
 
   setSessionToken(sessionToken: string): void {
-    this.cookieService.set('sessionToken', sessionToken);
+    // Utilisation de l'attribut "Secure" pour les cookies sensibles
+    this.cookieService.set('sessionToken', sessionToken, undefined, undefined, undefined, true, 'Lax');
   }
+
   setUserId(userId: string): void {
-    this.cookieService.set('userId', userId);
+    // Utilisation de l'attribut "Secure" pour les cookies sensibles
+    this.cookieService.set('userId', userId, undefined, undefined, undefined, true, 'Lax');
   }
 
   setFirstName(firstName: string): void {
-    this.cookieService.set('firstName', firstName);
+    // Utilisation de l'attribut "Secure" pour les cookies sensibles
+    this.cookieService.set('firstName', firstName, undefined, undefined, undefined, true, 'Lax');
   }
+
 
   deleteSessionToken(): void {
     this.cookieService.delete('sessionToken');
