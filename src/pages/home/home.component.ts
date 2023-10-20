@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieManagerService } from 'src/app/services/cookie-manager.service';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   events: any[] = []; // Pour stocker les événements récupérés
   myEvents: any[] = [];
   constructor(
-    private cookieService: CookieService, 
+    private cookieManagerService: CookieManagerService, 
     private router: Router,
     private apiService: ApiService // Injection du service API
   ) { }
@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
   }
 
   checkToken(): void {
-    const token = this.cookieService.get('sessionToken');
+    const token = this.cookieManagerService.getSessionToken();
 
     if (!token) {
       this.router.navigate(['/login']);
@@ -40,8 +40,8 @@ export class HomeComponent implements OnInit {
   }
 
   loadEvents(): void {
-    const token = this.cookieService.get('sessionToken');
-    const userId = this.cookieService.get('userId');
+    const token = this.cookieManagerService.getSessionToken();
+    const userId = this.cookieManagerService.getUserId();
     
     // S'assurer que le token est présent avant de faire l'appel API
     this.apiService.getEvents(token).subscribe(

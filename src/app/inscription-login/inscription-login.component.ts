@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service'; // Assurez-vous que le chemin est correct
-import { CookieService } from 'ngx-cookie-service';  // Importez le CookieService
+import { CookieManagerService } from '../services/cookie-manager.service';
 import { Router } from '@angular/router'; // Importez le service Router
 
 @Component({
@@ -12,7 +12,7 @@ import { Router } from '@angular/router'; // Importez le service Router
 export class InscriptionLoginComponent implements OnInit {
   signupForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private apiService: ApiService, private cookieService: CookieService, 
+  constructor(private fb: FormBuilder, private apiService: ApiService, private cookieManagerService: CookieManagerService, 
     private router: Router) { } // Injectez le service API
 
   ngOnInit(): void {
@@ -41,7 +41,7 @@ export class InscriptionLoginComponent implements OnInit {
               console.log('Utilisateur créé:', response);
               // Si l'API renvoie un token, enregistrez-le dans un cookie
         if (response && response.sessionToken) {
-          this.cookieService.set('sessionToken', response.sessionToken);
+          this.cookieManagerService.setSessionToken(response.sessionToken);
            // Naviguer vers la route racine
            this.router.navigate(['/']);
         }

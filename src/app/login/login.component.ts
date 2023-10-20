@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { CookieService } from 'ngx-cookie-service';  // Importez le CookieService
+import { CookieManagerService } from '../services/cookie-manager.service'; 
 import { Router } from '@angular/router'; // Importez le service Router
 
 @Component({
@@ -13,7 +13,7 @@ export class LoginComponent {
   errorMessage: string = ''; // Pour afficher les messages d'erreur
 
   constructor(private apiService: ApiService, 
-    private cookieService: CookieService, 
+    private cookieManagerService: CookieManagerService, 
     private router: Router ) { }
 
   onSubmit() {
@@ -23,10 +23,11 @@ export class LoginComponent {
        console.log('Réponse réussie :', response);
         
         // Si l'API renvoie un token, enregistrez-le dans un cookie
-        if (response && response.sessionToken) {
-          this.cookieService.set('sessionToken', response.sessionToken);
-          this.cookieService.set('userId', response.objectId);
-          this.cookieService.set('firstName', response.firstName);
+        if (response?.sessionToken) {
+          this.cookieManagerService.setSessionToken(response.sessionToken);
+          this.cookieManagerService.setUserId(response.objectId);
+          this.cookieManagerService.setFirstName(response.firstName);
+
            // Naviguer vers la route racine
            this.router.navigate(['/']);
         }
