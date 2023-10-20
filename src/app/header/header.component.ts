@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api.service'; // Assurez-vous que le chemin est correct
-import { CookieService } from 'ngx-cookie-service';
+import { CookieManagerService } from '../services/cookie-manager.service';
 
 @Component({
   selector: 'app-header',
@@ -11,12 +10,11 @@ export class HeaderComponent implements OnInit {
   firstName: string | null = null;
 
   constructor(
-      private cookieService: CookieService
+    private cookieManagerService: CookieManagerService
   ) {}
 
   ngOnInit(): void {
     //recuper dans le cookie le nom
-     this.firstName = this.cookieService.get('firstName');
-    
+    this.firstName = this.cookieManagerService.getFirstName();    
   }
 }

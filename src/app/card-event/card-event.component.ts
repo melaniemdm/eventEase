@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieManagerService } from '../services/cookie-manager.service';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
 
@@ -31,13 +31,13 @@ export class CardEventComponent implements OnInit{
   @Input() event: any;
 
   
-  constructor(private cookieService: CookieService, 
+  constructor(private cookieManagerService: CookieManagerService, 
     private apiService: ApiService,
     private router: Router) { }
   
   ngOnInit(): void {
     // recuperer le userId dans le cookie
-    const userId = this.cookieService.get('userId'); // Utiliser `this` pour accéder à `cookieService`.
+    const userId = this.cookieManagerService.getUserId();
     console.log('userId', userId);
     // voir si event est un type collecte
     if (this.event.titleEvent === 'Collecte alimentaire') {
@@ -53,8 +53,9 @@ console.log(participantInfo)
 // fonction pour se desinscrire
   unregister(event: any): void {
     // recuperer le userId dans le cookie
-    const userId = this.cookieService.get('userId'); // Utiliser `this` pour accéder à `cookieService`.
-    const token = this.cookieService.get('sessionToken');
+    const userId = this.cookieManagerService.getUserId();
+    const token = this.cookieManagerService.getSessionToken();
+
     console.log('userId', userId);
          // supprimer l'utilisateur de la liste des événements auxquels il est inscrit
          this.event.participant = this.event.participant.filter((participant: Participant) => participant.userId !== userId);

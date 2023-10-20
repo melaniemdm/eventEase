@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarMonthViewDay, CalendarView } from 'angular-calendar';
 import { isSameDay, isSameMonth } from 'date-fns';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieManagerService } from 'src/app/services/cookie-manager.service';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 import { EventColor } from 'calendar-utils';
@@ -33,7 +33,7 @@ const colors: Record<string, EventColor> = {
 
 
 export class CalendarComponent implements OnInit {
-  constructor(private cookieService: CookieService,
+  constructor(private cookieManagerService: CookieManagerService,
     private apiService: ApiService,
     private router: Router) {
 
@@ -51,7 +51,7 @@ export class CalendarComponent implements OnInit {
 
   loadsEventsCalendar() {
     //recuperation du token 
-    const token = this.cookieService.get('sessionToken');
+    const token = this.cookieManagerService.getSessionToken();
     console.log('token', token);
     //recuperation des events dans le backend
     this.apiService.getEvents(token).subscribe(

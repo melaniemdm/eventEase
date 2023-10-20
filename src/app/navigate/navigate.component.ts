@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieManagerService } from '../services/cookie-manager.service'; 
 import { Router } from '@angular/router';
 
 
@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./navigate.component.scss']
 })
 export class NavigateComponent {
-  constructor(private cookieService: CookieService, private router: Router) { }
+  constructor(private cookieManagerService: CookieManagerService, private router: Router) { }
 
   logout(): void {
-    this.cookieService.delete('sessionToken');
+    this.cookieManagerService.deleteSessionToken();
     this.router.navigate(['/login']);
   }
 }

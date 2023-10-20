@@ -15,7 +15,7 @@ import { CardEventComponent } from './card-event/card-event.component';
 import { HttpClientModule } from '@angular/common/http';
 import { InscriptionLoginComponent } from './inscription-login/inscription-login.component';
 import { ApiService } from './services/api.service';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieManagerService } from './services/cookie-manager.service';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr);
@@ -40,7 +40,7 @@ registerLocaleData(localeFr);
     AppRoutingModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
-  providers: [ApiService, CookieService],
+  providers: [ApiService, CookieManagerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
