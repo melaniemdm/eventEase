@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieManagerService } from '../services/cookie-manager.service';
 import { ApiService } from '../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 interface Participation {
@@ -36,7 +36,7 @@ export class InscriptionEventComponent implements OnInit {
   firstName: string | null = null;
   participant: Participant[] = [];
   constructor(
-    private cookieService: CookieService,
+    private cookieManagerService: CookieManagerService,
     private apiService: ApiService,  // Injectez votre service API
     private route: ActivatedRoute,
     private router: Router)
@@ -67,12 +67,12 @@ this.participantForm = new FormGroup({
 }
 
   InscriptionUser(functionalId: string, participation: Participation) {
-    const token = this.cookieService.get('sessionToken');
+    const token = this.cookieManagerService.getSessionToken();
      //recuper dans le cookie le nom
-    this.firstName = this.cookieService.get('firstName');
+    this.firstName = this.cookieManagerService.getFirstName();
     if (token) {
       // Récupération des données utilisateur
-      this.userId = this.cookieService.get('userId');
+      this.userId = this.cookieManagerService.getUserId();
       // Récupération des événements
       this.apiService.getEvents(token).subscribe(
         eventsData => {
