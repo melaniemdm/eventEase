@@ -39,7 +39,7 @@ export class CalendarComponent implements OnInit {
 
   }
   viewDate: Date = new Date();
-  view: CalendarView = CalendarView.Week;
+  view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
   events: CalendarEvent<{ incrementsBadgeTotal: boolean }>[] = [];
   activeDayIsOpen = false;
