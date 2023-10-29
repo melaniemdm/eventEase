@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarEvent, CalendarMonthViewDay, CalendarView } from 'angular-calendar';
+import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { CookieManagerService } from 'src/app/services/cookie-manager.service';
 import { ApiService } from 'src/app/services/api.service';
