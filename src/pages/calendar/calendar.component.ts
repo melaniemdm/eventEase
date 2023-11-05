@@ -57,12 +57,12 @@ export class CalendarComponent implements OnInit {
     this.apiService.getEvents(token).subscribe(
       (data: any) => {
         this.events = data.map((event: any) => {
-          const eventDate = new Date(event.date + 'Z');
+          const eventDate = new Date(event.date);
           // Initialisation de start et end
-          let start = new Date(event.date + 'Z');
+          let start = new Date(event.date);
           start.setHours(8, 0, 0, 0);
 
-          let end = new Date(event.date + 'Z');
+          let end = new Date(event.date);
           end.setHours(12, 0, 0, 0);
 
           if (event.titleEvent === 'Collecte alimentaire') {
